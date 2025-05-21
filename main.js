@@ -110,7 +110,7 @@ form.onsubmit = async (ev) => {
   } else if (
     prompt.toLowerCase().includes('siapa kamu') || 
     prompt.toLowerCase().includes('kamu siapa') || 
-    prompt.toLowerCase().includes('siapa Glucozia AI')
+    prompt.toLowerCase().includes('siapa MoodCurhat')
   ) {
     const responseText = getRandomResponse();
     const responseBubble = addChatBubble('', 'ai', true);
