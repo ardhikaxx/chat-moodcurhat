@@ -42,10 +42,10 @@ let stopGeneration = false;
 let currentTypingInterval = null;
 
 const responses = [
-  "Saya adalah Chat AI, asisten edukasi interaktif yang dirancang untuk membantu Anda belajar dan mengeksplorasi topik-topik tentang Haid dan Hamil. Bagaimana saya bisa membantu Anda hari ini?",
-  "Halo! Saya adalah Chat AI, asisten edukasi interaktif di sini! Saya siap membantu Anda dengan berbagai pertanyaan dan informasi yang Anda butuhkan.",
-  "Hai! Saya adalah Chat AI, dan saya di sini untuk memandu Anda melalui berbagai topik terkait diabetes. Ada yang bisa saya bantu?",
-  "Selamat datang! Saya adalah Chat AI, asisten virtual Anda. Apakah Anda membutuhkan bantuan atau informasi tentang topik diabetes?"
+  "Halo! Saya MoodCurhat, teman digitalmu untuk kesehatan mental. Saya di sini untuk mendengarkan dan mendukungmu. Apa yang ingin kamu ceritakan hari ini?",
+  "Hai! Saya senang kamu datang ke sini. Menceritakan perasaan adalah langkah berani. Saya siap mendengarkan.",
+  "Selamat datang di MoodCurhat. Setiap perasaan yang kamu alami adalah valid. Mau ceritakan apa yang sedang kamu rasakan?",
+  "Hai teman! Terima kasih sudah membuka MoodCurhat. Bagaimana kabarmu hari ini? Saya di sini untuk mendengarkan."
 ];
 
 window.onload = () => {
@@ -104,7 +104,7 @@ form.onsubmit = async (ev) => {
     prompt.toLowerCase().includes('siapa yang mengembangkan kamu') || 
     prompt.toLowerCase().includes('siapa developer kamu')
   ) {
-    const responseText = `Saya dibuat oleh tim GlucoWise.`;
+    const responseText = `Saya dibuat oleh tim pengembang dari MoodCurhat.`;
     const responseBubble = addChatBubble('', 'ai', true);
     typeResponse(responseBubble, responseText, null, 0);
   } else if (
