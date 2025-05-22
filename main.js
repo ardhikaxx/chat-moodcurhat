@@ -61,7 +61,7 @@ function handleSubmit(ev) {
 
 function changeButtonToStop() {
   submitButton.innerHTML = 'Stop <i class="fas fa-stop ml-1"></i>';
-  submitButton.classList.remove('bg-[#1A998E]', 'hover:bg-[#137a72]');
+  submitButton.classList.remove('bg-[#00B37E]', 'hover:bg-[#00B37E]');
   submitButton.classList.add('bg-red-500', 'hover:bg-red-600');
   submitButton.onclick = stopGenerating;
 }
@@ -69,7 +69,7 @@ function changeButtonToStop() {
 function changeButtonToSubmit() {
   submitButton.innerHTML = 'Kirim <i class="fa-regular fa-paper-plane ml-1"></i>';
   submitButton.classList.remove('bg-red-500', 'hover:bg-red-600');
-  submitButton.classList.add('bg-[#1A998E]', 'hover:bg-[#137a72]');
+  submitButton.classList.add('bg-[#00B37E]', 'hover:bg-[#00B37E]');
   submitButton.onclick = null;
   submitButton.type = 'submit';
 }
