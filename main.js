@@ -2,7 +2,7 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 import MarkdownIt from 'markdown-it';
 import './style.css';
 
-let API_KEY = 'AIzaSyAe748hL1Sojv76iHib5sQju2jygXHGhOQ';
+let API_KEY = 'AIzaSyBx6euWCBCJa1gau6J7HLmQHhBtuaGop7s';
 
 let form = document.querySelector('form');
 let promptTextarea = document.querySelector('textarea[name="prompt"]');
@@ -19,7 +19,7 @@ promptTextarea.addEventListener('keydown', function (e) {
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash-lite",
   safetySettings: [
     {
       category: HarmCategory.HARM_CATEGORY_HARASSMENT,
