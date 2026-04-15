@@ -1,8 +1,13 @@
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { Groq } from 'groq-sdk';
 import MarkdownIt from 'markdown-it';
 import './style.css';
 
-let API_KEY = 'AIzaSyBx6euWCBCJa1gau6J7HLmQHhBtuaGop7s';
+let API_KEY = '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';
+
+const groq = new Groq({
+  apiKey: API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 let form = document.querySelector('form');
 let promptTextarea = document.querySelector('textarea[name="prompt"]');
@@ -17,24 +22,12 @@ promptTextarea.addEventListener('keydown', function (e) {
 });
 
 
-const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({
-  model: "gemini-2.5-flash-lite",
-  safetySettings: [
-    {
-      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-      threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-    },
-  ],
-});
-
-let chat = model.startChat({
-  history: [],
-  generationConfig: {
-    maxOutputTokens: 1000,
-    temperature: 0.8,
+let chatHistory = [
+  {
+    role: "system",
+    content: "Kamu adalah MoodCurhat, asisten digital kesehatan mental yang empati, ramah, dan suportif. Kamu di sini untuk mendengarkan keluh kesah pengguna dan memberikan dukungan moral. Gunakan bahasa Indonesia yang santai, hangat, dan menenangkan. Hindari memberikan saran medis profesional, sebaliknya fokus pada empati dan validasi perasaan."
   }
-});
+];
 
 // Variables for controlling generation
 let isGenerating = false;
@@ -123,43 +116,42 @@ form.onsubmit = async (ev) => {
     const loadingBubble = addChatBubble('Typing<i class="fa-solid fa-spinner fa-spin-pulse ml-2"></i>', 'ai', true);
 
     try {
-      const result = await chat.sendMessageStream(prompt);
-      let buffer = [];
+      chatHistory.push({ role: "user", content: prompt });
+
+      const result = await groq.chat.completions.create({
+        messages: chatHistory,
+        model: "llama-3.3-70b-versatile",
+        temperature: 0.8,
+        max_completion_tokens: 1024,
+        top_p: 1,
+        stream: true,
+      });
+
+      let fullResponse = '';
       let md = new MarkdownIt();
 
-      for await (let response of result.stream) {
+      loadingBubble.innerHTML = '';
+
+      for await (const chunk of result) {
         if (stopGeneration) break;
-        buffer.push(response.text());
+        const content = chunk.choices[0]?.delta?.content || '';
+        fullResponse += content;
+        
+        loadingBubble.innerHTML = md.render(fullResponse);
+        chatOutput.scrollTo({
+          top: chatOutput.scrollHeight,
+          behavior: 'auto' // Use auto for smoother streaming scroll
+        });
       }
 
-      loadingBubble.innerHTML = '';
-      const fullResponse = buffer.join('');
-      
+      loadingBubble.classList.remove('normal', 'text-gray-100');
+
       if (!stopGeneration) {
-        typeResponse(loadingBubble, fullResponse, md, 0, () => {
-          chat = model.startChat({
-            history: [
-              ...chat.history,
-              {
-                role: "user",
-                parts: [{ text: prompt }],
-              },
-              {
-                role: "model",
-                parts: [{ text: fullResponse }],
-              },
-            ],
-            generationConfig: {
-              maxOutputTokens: 1000,
-              temperature: 0.8,
-            }
-          });
-        });
-      } else {
-        loadingBubble.innerHTML = md ? md.render(fullResponse) : fullResponse;
-        isGenerating = false;
-        changeButtonToSubmit();
+        chatHistory.push({ role: "assistant", content: fullResponse });
       }
+      
+      isGenerating = false;
+      changeButtonToSubmit();
 
     } catch (e) {
       loadingBubble.innerHTML = '<hr>' + e;
