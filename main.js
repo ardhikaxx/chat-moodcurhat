@@ -2,7 +2,7 @@ import { Groq } from 'groq-sdk';
 import MarkdownIt from 'markdown-it';
 import './style.css';
 
-let API_KEY = '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';
+let API_KEY = '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';
 
 const groq = new Groq({
   apiKey: API_KEY,
