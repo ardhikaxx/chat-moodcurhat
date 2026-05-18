@@ -2,7 +2,7 @@ import { Groq } from 'groq-sdk';
 import MarkdownIt from 'markdown-it';
 import './style.css';
 
-let API_KEY = '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';
+let API_KEY = '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';
 
 const groq = new Groq({
   apiKey: API_KEY,
@@ -120,9 +120,9 @@ form.onsubmit = async (ev) => {
 
       const result = await groq.chat.completions.create({
         messages: chatHistory,
-        model: "llama-3.3-70b-versatile",
-        temperature: 0.8,
-        max_completion_tokens: 1024,
+        model: "meta-llama/llama-prompt-guard-2-86m",
+        temperature: 1,
+        max_completion_tokens: 1,
         top_p: 1,
         stream: true,
       });
