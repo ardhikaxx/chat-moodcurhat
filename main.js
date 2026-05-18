@@ -120,9 +120,9 @@ form.onsubmit = async (ev) => {
 
       const result = await groq.chat.completions.create({
         messages: chatHistory,
-        model: "meta-llama/llama-prompt-guard-2-86m",
-        temperature: 1,
-        max_completion_tokens: 1,
+        model: "llama-3.3-70b-versatile",
+        temperature: 0.8,
+        max_completion_tokens: 1024,
         top_p: 1,
         stream: true,
       });
